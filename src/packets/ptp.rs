@@ -4,19 +4,9 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-pub mod packets;
+use pnet::packet::ethernet::{EtherType,EtherTypes};
 
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+/// Precision Time Protocol (PTP) over Ethernet \[IEEE 1588\].
+#[allow(dead_code)]
+const ETHER_TYPE: EtherType = EtherTypes::Ptp; // 0x88f7
