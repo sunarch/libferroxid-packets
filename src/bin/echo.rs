@@ -39,7 +39,7 @@ fn main() {
                 //
                 // The packet is sent once the closure has finished executing.
                 tx.build_and_send(1, packet.packet().len(),
-                                  &mut |mut new_packet| {
+                                  &mut |new_packet| {
                                       let mut new_packet = MutableEthernetPacket::new(new_packet).unwrap();
 
                                       // Create a clone of the original packet

@@ -1,15 +1,17 @@
-extern crate pnet;
+// -*- coding: utf-8, vim: expandtab:ts=4 -*-
+
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+use std::env;
 
 use pnet::datalink::{self, NetworkInterface};
 use pnet::datalink::Channel::Ethernet;
-use pnet::packet::{Packet, MutablePacket};
-use pnet::packet::ethernet::{EthernetPacket, EtherTypes, MutableEthernetPacket};
-use pnet::packet::arp::ArpPacket;
-use pnet::packet::ethernet::EtherType;
-
-use std::env;
-use std::{thread, time};
+use pnet::packet::{Packet};
+use pnet::packet::ethernet::{EtherTypes, MutableEthernetPacket};
 use pnet::util::MacAddr;
+
 
 // Invoke as 'single <interface name>'
 fn main() {
@@ -25,14 +27,12 @@ fn main() {
         .unwrap();
 
     // Create a new channel, dealing with layer 2 packets
-    let (mut tx, mut rx) =
+    let (mut tx, _) =
         match datalink::channel(&interface, Default::default()) {
             Ok(Ethernet(tx, rx)) => (tx, rx),
             Ok(_) => panic!("Unhandled channel type"),
             Err(e) => panic!("An error occurred when creating the datalink channel: {}", e)
     };
-
-    const IPV4_HEADER_LEN: u8 = 0x45;
     
     let mut content: [u8;34] = [0, 1, 2, 3, 4, 5,
                                 6, 7, 8, 9, 10, 11,
